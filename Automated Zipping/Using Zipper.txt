@@ -1,0 +1,5 @@
+Using Zipper
+Open the Zipper.bat with Notepad or anyother equivalent
+edit the path with the folder containing the folders to zip. 
+save the file
+double click to run the bat file.

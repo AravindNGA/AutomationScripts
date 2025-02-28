@@ -1,0 +1,45 @@
+Sub CombineFiles()
+    Dim wb As Workbook
+    Dim ws As Worksheet
+    Dim folderPath As String
+    Dim fileName As String
+    Dim newWb As Workbook
+    Dim newWs As Worksheet
+    
+    ' Set folder path
+    folderPath = "C:\Your\Folder\Path\"
+    
+    ' Create a new workbook
+    Set newWb = Workbooks.Add
+    
+    ' Get the first file in the folder
+    fileName = Dir(folderPath & "*.xlsx")
+    
+    ' Loop through all files in the folder
+    Do While fileName <> ""
+        ' Print file name to Immediate Window for debugging
+        Debug.Print "Processing file: " & fileName
+        
+        ' Open the workbook
+        Set wb = Workbooks.Open(folderPath & fileName)
+        
+        ' Copy the first sheet to the new workbook
+        Set ws = wb.Sheets(1)
+        ws.Copy After:=newWb.Sheets(newWb.Sheets.Count)
+        
+        ' Rename the new sheet to the file name (without extension)
+        newWb.Sheets(newWb.Sheets.Count).Name = Left(fileName, InStr(fileName, ".") - 1)
+        
+        ' Close the workbook without saving changes
+        wb.Close SaveChanges:=False
+        
+        ' Get the next file
+        fileName = Dir
+    Loop
+    
+    ' Save the new workbook
+    newWb.SaveAs folderPath & "CombinedWorkbook.xlsx"
+    newWb.Close
+    
+    MsgBox "Files combined successfully!"
+End Sub
